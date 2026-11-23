@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; form-action 'self'">
+  <title>FSSAI licence tier finder for food businesses · Open MSME</title>
+  <meta name="description" content="A free single-binary tool that works out whether a food business needs a Basic Registration, a State Licence or a Central Licence under the FSS Act 2006, explains why, lists the documents, prices the fee and watches every expiry date. Runs on your own machine.">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:title" content="FSSAI licence tier finder and renewal tracker">
+  <meta property="og:description" content="Which of the three FSSAI tiers your food business needs, why, what to carry, what it costs, and when it expires — offline, on your own machine.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/accent.css">
+  <script src="assets/theme-init.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">
+        <span class="dot"></span><b>Open MSME</b><span class="tag">FSSAI licence</span>
+      </a>
+      <span class="sp"></span>
+      <a class="home" href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a>
+      <button class="themer" data-themer type="button">Theme</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow">Food processing &amp; F&amp;B · India</div>
+        <h1>FSSAI licence tier finder and renewal tracker for food businesses</h1>
+        <p class="lede">A free, single-binary tool that works out which of the three FSSAI tiers your food business needs and tells you exactly which rule put you there — then keeps every licence expiry date in front of you before it lapses.</p>
+        <div class="who">
+          <span class="pill">Food manufacturers, traders, restaurants and home kitchens</span>
+          <span class="pill reg">FSSAI · FSS Act 2006 · FoSCoS</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <section class="prose">
+
+        <h2>What it does</h2>
+        <p>Three questions trip up nearly every new food business in India: which FSSAI authorisation do I actually need, what do I have to carry to get it, and when does it run out. This tool answers all three on your own machine.</p>
+        <p>You answer a short questionnaire — turnover, what the business does, how much food or milk it handles a day, how many states it operates in, and whether it imports, exports, sells through e-commerce or sits inside an airport or seaport. The tool returns:</p>
+        <ul>
+          <li>the tier: <strong>Basic Registration</strong>, <strong>State Licence</strong> or <strong>Central Licence</strong>;</li>
+          <li>the <strong>reasoning chain</strong> — every threshold that fired and every one that cleared, in the order the rules were applied;</li>
+          <li>the <strong>document checklist</strong> for that tier and that kind of business, exportable as CSV;</li>
+          <li>the <strong>indicative government fee</strong> for each validity from one to five years;</li>
+          <li>a <strong>renewal watchdog</strong> over the licences you save, sorted by urgency, with alerts at ninety, thirty and seven days and an overdue state after that.</li>
+        </ul>
+        <p>The reasoning chain is the part that matters. Being told "State Licence" is not useful on its own; being told <em>"milk handled 3,000 litres a day falls in the 500 to 50,000 litres a day band, which is a State Licence"</em> is something you can check, argue with, and act on.</p>
+
+        <h2>Who it's for</h2>
+        <p>Food manufacturers, processors, traders, wholesalers, retailers, restaurants, caterers, transporters, cold stores, home kitchens and cloud kitchens anywhere in <strong>India</strong> — the small operators who do not have a consultant on retainer and who most often apply for the wrong tier, or let a licence lapse because nobody was watching the date.</p>
+        <p>It is equally useful to the person who already holds a licence: if turnover has grown, a second state has opened, or exports have started, the tier may have changed underneath you.</p>
+
+        <h2>The rule it implements</h2>
+        <p>The three tiers are set by the <strong>Food Safety and Standards Act, 2006</strong> and the <strong>Food Safety and Standards (Licensing and Registration of Food Businesses) Regulations, 2011</strong>. Applications are filed on <strong>FoSCoS</strong>, the Food Safety Compliance System operated by the Food Safety and Standards Authority of India. A Basic Registration is applied for in <strong>Form A</strong>; a State or Central Licence in <strong>Form B</strong>.</p>
+        <p>The tool applies three rules, in this order.</p>
+        <ol class="steps">
+          <li><strong>Central Licence</strong> if any one of these is true: annual turnover above <code>₹20 crore</code>; the business imports food; it exports food or is a 100% export oriented unit; it is an e-commerce food business operator; it operates in two or more states, counted from the head office; its premises are inside an airport or seaport; or its production capacity is above what a State Licence covers.</li>
+          <li><strong>Basic Registration</strong> if none of those apply and the business is a petty food business operator: turnover at or below <code>₹12 lakh</code>, food capacity at or below <code>100 kg a day</code>, and milk at or below <code>500 litres a day</code>.</li>
+          <li><strong>State Licence</strong> for everything in between — turnover above <code>₹12 lakh</code> and up to <code>₹20 crore</code>, with capacity inside the State ceilings.</li>
+        </ol>
+        <p>The capacity ceilings that separate a State Licence from a Central Licence are <code>2 metric tonnes a day</code> of food manufacturing or processing, and <code>50,000 litres a day</code> of milk — or <code>2,500 metric tonnes of milk solids a year</code>. Milk between <code>500</code> and <code>50,000 litres a day</code> sits in the State Licence band, which is why a small dairy can need a State Licence on a turnover that would otherwise be petty.</p>
+
+        <h2>Install &amp; run</h2>
+        <p>One binary, no dependencies, nothing to install alongside it. With Go 1.25 or later:</p>
+        <pre><code># build it once, then run the binary anywhere
+go build -o fssai-license-navigator .
+./fssai-license-navigator
+
+# or run it straight from the source directory
+go run .
+
+# choose a different port or data file
+./fssai-license-navigator -addr 127.0.0.1:8137 -data ~/licences.json</code></pre>
+        <p>Then open <code>http://127.0.0.1:8080/</code>. The user interface is embedded in the binary, so the one file is the whole tool — you can copy it onto a machine with no internet connection and it will work exactly the same.</p>
+
+        <h2>What it stores</h2>
+        <p>One local JSON file, <code>./fssai-license-navigator-data.json</code> by default, holding the licences you saved and any threshold or fee you corrected. The path is printed when the tool starts and shown in the interface.</p>
+        <p>Nothing else. The tool binds to <code>127.0.0.1</code> so it is not reachable from your network, it makes <strong>no outbound network calls</strong> of any kind, there is no account, no telemetry, no analytics and no third-party code or fonts. The data file is written through a temporary file and renamed into place, so an interrupted write cannot corrupt what you had. Back it up by copying that one file.</p>
+
+        <h2>Features</h2>
+        <div class="featgrid">
+          <div class="feat">
+            <h3>Tier questionnaire</h3>
+            <p>Turnover, activity, capacity, milk, states and the five facts that override everything else — recalculated as you type.</p>
+          </div>
+          <div class="feat">
+            <h3>The reasoning chain</h3>
+            <p>Every rule that fired and every rule that cleared, quoting the figure it was compared against.</p>
+          </div>
+          <div class="feat">
+            <h3>Document checklist</h3>
+            <p>The documents for your tier and your kind of business, with who each one is asked of and what satisfies it.</p>
+          </div>
+          <div class="feat">
+            <h3>CSV export</h3>
+            <p>Take the checklist to a spreadsheet, a printer or whoever is collecting the papers for you.</p>
+          </div>
+          <div class="feat">
+            <h3>Indicative fee</h3>
+            <p>The government fee for the tier and category, priced for each validity from one to five years.</p>
+          </div>
+          <div class="feat">
+            <h3>Renewal watchdog</h3>
+            <p>Every saved licence sorted by urgency, with alerts at ninety, thirty and seven days, and the accrued late fee once one has lapsed.</p>
+          </div>
+          <div class="feat">
+            <h3>Figures you can correct</h3>
+            <p>Every threshold, ceiling and fee is editable and saved, so a revision by the authority does not make the tool wrong.</p>
+          </div>
+          <div class="feat">
+            <h3>Entirely offline</h3>
+            <p>Loopback only, one local file, no network calls, no dependencies beyond the Go standard library.</p>
+          </div>
+        </div>
+
+        <h2>Assumptions &amp; figures used</h2>
+        <details class="assumptions">
+          <summary>The exact thresholds, ceilings and fees — all indicative</summary>
+          <p>Each of these is a single named constant in the source, is stated here, and can be changed inside the tool if the authority revises it.</p>
+          <ul>
+            <li><strong>Petty food business operator turnover ceiling:</strong> <code>₹12,00,000</code> a year.</li>
+            <li><strong>Turnover above which a Central Licence is needed:</strong> <code>₹20,00,00,000</code> a year.</li>
+            <li><strong>Petty food business operator food capacity:</strong> <code>100 kg</code> a day.</li>
+            <li><strong>Food capacity a State Licence covers:</strong> <code>2</code> metric tonnes a day.</li>
+            <li><strong>Petty food business operator milk ceiling:</strong> <code>500</code> litres a day.</li>
+            <li><strong>Milk a State Licence covers:</strong> <code>50,000</code> litres a day.</li>
+            <li><strong>Milk solids a State Licence covers:</strong> <code>2,500</code> metric tonnes a year.</li>
+            <li><strong>States of operation that trigger a Central Licence:</strong> <code>2</code>.</li>
+            <li><strong>Basic Registration fee:</strong> <code>₹100</code> a year.</li>
+            <li><strong>State Licence fee:</strong> <code>₹2,000</code> a year for food service and for any other food business; <code>₹3,000</code> a year for a manufacturing or processing unit at or below <code>1</code> metric tonne a day of food and <code>10,000</code> litres a day of milk; <code>₹5,000</code> a year above that band.</li>
+            <li><strong>Central Licence fee:</strong> <code>₹7,500</code> a year, one flat rate.</li>
+            <li><strong>Validity:</strong> <code>1</code> to <code>5</code> years, your choice at application; the fee is per year.</li>
+            <li><strong>Renewal alerts:</strong> <code>90</code>, <code>30</code> and <code>7</code> days before expiry. A licence counts as valid through the whole of its expiry date.</li>
+            <li><strong>Indicative late renewal penalty:</strong> <code>₹100</code> a day after expiry.</li>
+          </ul>
+          <p>Two deliberate simplifications. Production capacity and milk volumes are read as declared, so traders, retailers and restaurants should leave them at zero. The milk solids figure only decides the step up to a Central Licence, because the petty ceiling is written in litres a day.</p>
+        </details>
+
+        <div class="note">
+          <p><strong>These figures are indicative and they change.</strong> FSSAI revises fees, turnover thresholds and capacity ceilings from time to time, and the document list varies by state, by food category and by the kind of entity you are. This tool is a planning aid — it is not legal advice, it is not a filing service, and it does not submit anything to FSSAI on your behalf. Confirm your eligibility, the current fee and the required documents on the official FoSCoS portal, or with your state's Food Safety Commissionerate, before you apply or renew.</p>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <span>Open MSME · open-source tool for MSMEs in India &amp; the Philippines · MIT</span>
+      <span><a href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a></span>
+    </div>
+  </footer>
+
+  <script src="assets/ui.js"></script>
+</body>
+</html>

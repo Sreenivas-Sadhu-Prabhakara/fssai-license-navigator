@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; form-action 'self'">
+  <title>FSSAI licence tier finder and renewal tracker · Open MSME</title>
+  <meta name="description" content="Work out whether your food business needs a Basic Registration, a State Licence or a Central Licence, see why, get the document checklist and the indicative fee, and watch every licence expiry date.">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:title" content="FSSAI licence tier finder and renewal tracker">
+  <meta property="og:description" content="Which of the three FSSAI tiers your food business needs, why, what to carry, what it costs, and when it expires.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/accent.css">
+  <script src="assets/theme-init.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">
+        <span class="dot"></span><b>Open MSME</b><span class="tag">FSSAI licence</span>
+      </a>
+      <span class="sp"></span>
+      <a class="home" href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a>
+      <button class="themer" data-themer type="button">Theme</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow">Food processing &amp; F&amp;B · India</div>
+        <h1>FSSAI licence tier finder and renewal tracker for food businesses</h1>
+        <p class="lede">Answer a short questionnaire to see which of the three FSSAI tiers your food business needs and exactly why, with the document checklist, the indicative government fee, and a watchdog over every licence expiry date you save.</p>
+        <div class="who">
+          <span class="pill">Food manufacturers, traders, restaurants and home kitchens</span>
+          <span class="pill reg">FSSAI · FSS Act 2006 · FoSCoS</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <div class="cols calc">
+
+        <section class="card">
+          <h2>Your food business</h2>
+
+          <div class="field">
+            <label for="turnover">Annual turnover <span class="hint">rupees in a financial year</span></label>
+            <div class="inp has-pre">
+              <span class="pre">₹</span>
+              <input type="number" id="turnover" min="0" step="1000" value="800000" inputmode="numeric">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="activity">What the business does <span class="hint">pick the closest fit</span></label>
+            <select id="activity"></select>
+          </div>
+
+          <div class="field">
+            <label for="capacity">Food made or processed per day <span class="hint">manufacturing and processing units only &mdash; leave at 0 otherwise</span></label>
+            <div class="row2">
+              <input type="number" id="capacity" min="0" step="1" value="0" inputmode="decimal">
+              <select id="unit"></select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="dairy">Milk and milk products handled per day <span class="hint">litres &mdash; leave at 0 if this is not a dairy</span></label>
+            <div class="inp has-suf">
+              <span class="suf">L</span>
+              <input type="number" id="dairy" min="0" step="10" value="0" inputmode="decimal">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="solids">Milk solids a year <span class="hint">metric tonnes &mdash; optional, only large dairies need it</span></label>
+            <div class="inp has-suf">
+              <span class="suf">MT</span>
+              <input type="number" id="solids" min="0" step="10" value="0" inputmode="decimal">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="states">States or union territories you operate in <span class="hint">counted from the head office</span></label>
+            <input type="number" id="states" min="1" step="1" value="1" inputmode="numeric">
+          </div>
+
+          <div class="field">
+            <label id="facts-label">Which of these are true? <span class="hint">any one of them changes the answer</span></label>
+            <div class="seg" role="group" aria-labelledby="facts-label">
+              <button type="button" data-flag="importer" aria-pressed="false">Imports food</button>
+              <button type="button" data-flag="exporter" aria-pressed="false">Exports food</button>
+              <button type="button" data-flag="eou" aria-pressed="false">100% export oriented</button>
+              <button type="button" data-flag="ecommerce" aria-pressed="false">Sells through e-commerce</button>
+              <button type="button" data-flag="port" aria-pressed="false">Premises in an airport or seaport</button>
+            </div>
+          </div>
+
+          <div class="btnrow">
+            <button class="btn ghost" id="reset" type="button">Reset answers</button>
+          </div>
+        </section>
+
+        <section class="card sticky">
+          <h2>What you need</h2>
+          <div class="result-primary" aria-live="polite">
+            <div class="k">Licence tier</div>
+            <div class="v" id="tier-name">&mdash;</div>
+            <div class="sub" id="tier-sub"></div>
+          </div>
+
+          <table class="breakdown">
+            <thead>
+              <tr><th>Validity chosen at application</th><th class="num">Indicative government fee</th></tr>
+            </thead>
+            <tbody id="fee-rows"></tbody>
+          </table>
+          <p class="assumptions" id="fee-basis"></p>
+
+          <h2>Why this tier</h2>
+          <ol class="steps" id="reasons"></ol>
+
+          <div class="note" id="notes"></div>
+
+          <div class="btnrow">
+            <button class="btn ghost" id="print" type="button">Print / Save PDF</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <section class="card">
+        <h2>Documents to carry</h2>
+        <p class="assumptions" id="checklist-intro"></p>
+        <table class="breakdown">
+          <thead>
+            <tr><th>Document</th><th>Asked of</th></tr>
+          </thead>
+          <tbody id="checklist-rows"></tbody>
+        </table>
+        <div class="btnrow">
+          <button class="btn primary" id="export" type="button">Export this checklist as CSV</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="wrap">
+      <section class="card">
+        <h2>Your licences and their renewal dates</h2>
+        <p class="assumptions" id="watch-asof"></p>
+
+        <div class="row2">
+          <div class="field">
+            <label for="l-name">Business or premises name</label>
+            <input type="text" id="l-name" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="l-number">FSSAI number <span class="hint">14 digits, optional</span></label>
+            <input type="text" id="l-number" autocomplete="off" inputmode="numeric">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="l-tier">Tier held</label>
+            <select id="l-tier"></select>
+          </div>
+          <div class="field">
+            <label for="l-expiry">Expiry date <span class="hint">YYYY-MM-DD</span></label>
+            <input type="text" id="l-expiry" placeholder="2027-03-31" autocomplete="off" inputmode="numeric">
+          </div>
+        </div>
+        <div class="field">
+          <label for="l-notes">Note to yourself <span class="hint">optional</span></label>
+          <input type="text" id="l-notes" autocomplete="off">
+        </div>
+        <div class="btnrow">
+          <button class="btn primary" id="add" type="button">Save this licence</button>
+        </div>
+        <p class="assumptions" id="add-msg"></p>
+
+        <table class="breakdown">
+          <thead>
+            <tr>
+              <th>Licence</th>
+              <th>Expires</th>
+              <th class="num">Days</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="watch-rows"></tbody>
+        </table>
+      </section>
+    </div>
+
+    <div class="wrap">
+      <section class="prose">
+        <h2>How the tier is decided</h2>
+        <p>Three rules are applied in order. First, any single Central Licence trigger decides it: turnover above twenty crore rupees, importing, exporting, a hundred per cent export oriented unit, operating as an e-commerce food business operator, operating in two or more states, premises inside an airport or seaport, or a production capacity above what a State Licence covers. Second, if none of those apply, a petty food business operator &mdash; turnover, food capacity and milk handling all at or below the petty ceilings &mdash; needs only a Basic Registration. Third, anything in between needs a State Licence.</p>
+        <p>Every threshold that fires, and every one that clears, is listed back to you, because knowing <em>why</em> you are in a tier is what stops you applying for the wrong one.</p>
+
+        <h2>The regulation</h2>
+        <p>The three tiers come from the <strong>Food Safety and Standards Act, 2006</strong> and the <strong>Food Safety and Standards (Licensing and Registration of Food Businesses) Regulations, 2011</strong>. Applications are filed on <strong>FoSCoS</strong>, the Food Safety Compliance System run by FSSAI. A Basic Registration is applied for in Form A; a State or Central Licence in Form B.</p>
+
+        <h2>Where your data lives</h2>
+        <p>Everything you type stays on this machine. The licences you save are written to one local JSON file, shown under the watchdog table above. Nothing is sent anywhere, there is no account, and the tool makes no outbound network calls.</p>
+
+        <details class="assumptions">
+          <summary>Indicative figures used, and how to change them</summary>
+          <p>These are the thresholds, ceilings and fees the answer above is built from. They are <strong>indicative</strong>: FSSAI revises them from time to time. If a figure has changed, correct it here and the decision will follow your figure instead. Confirm the current figures on the FoSCoS portal before you apply.</p>
+          <div id="params-fields"></div>
+          <div class="btnrow">
+            <button class="btn primary" id="save-params" type="button">Use these figures</button>
+            <button class="btn ghost" id="reset-params" type="button">Restore the published figures</button>
+          </div>
+          <p class="assumptions" id="params-msg"></p>
+        </details>
+
+        <div class="note">
+          <p>This tool is a planning aid, not a filing service and not legal advice. It does not submit anything to FSSAI on your behalf and it cannot see your state's own additions to the requirements. Fees, turnover thresholds and capacity ceilings change; the document list varies by state, by food category and by the kind of entity you are. Confirm your eligibility, the current fee and the document list on the official FoSCoS portal, or with your state's Food Safety Commissionerate, before you apply or renew.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <span>Open MSME · open-source tool for MSMEs in India &amp; the Philippines · MIT</span>
+      <span><a href="https://sreenivas-sadhu-prabhakara.github.io/openmsme/">All tools</a></span>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
